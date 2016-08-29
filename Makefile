@@ -1,4 +1,4 @@
-.PHONY: all build clean
+.PHONY: all build docker-build docker-push clean
 
 LUA_VERSIONS= 5.1.5 5.2.4 5.3.3
 LUA_LATEST=5.3.3
@@ -41,6 +41,42 @@ build:
 	    | perl -pe "s/\{\{DOCKERFILES\}\}/$$readme_versions/g" \
 	    | perl -pe "s/\{\{DOCKERFILES_LINKS\}\}/$$readme_links/g" \
 	    > ./README.md ;\
+	echo "Done" ;
+
+docker-build: build
+	for lua_version in $(LUA_VERSIONS) ; do \
+	    lua_version_2="$${lua_version%.*}" ;\
+	    echo "Build docker container for Lua $$lua_version" ;\
+	    ( cd ./$$lua_version_2 && ls && docker build -t superpaintman/lua:$$lua_version . ) ;\
+	    docker tag superpaintman/lua:$$lua_version superpaintman/lua:$$lua_version_2 ;\
+	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	        docker tag superpaintman/lua:$$lua_version superpaintman/lua:latest ;\
+	    fi ;\
+	    echo "Build docker container for Luarocks $$LUAROCKS_VERSION" ;\
+	    ( cd ./$$lua_version_2/luarocks && docker build -t superpaintman/lua:$$lua_version-luarocks . ) ;\
+	    docker tag superpaintman/lua:$$lua_version superpaintman/lua:$$lua_version_2-luarocks ;\
+	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	        docker tag superpaintman/lua:$$lua_version superpaintman/lua:luarocks ;\
+	    fi ;\
+	done ;\
+	echo "Done" ;
+
+docker-push:
+	for lua_version in $(LUA_VERSIONS) ; do \
+	    lua_version_2="$${lua_version%.*}" ;\
+	    echo "Push docker container for Lua $$lua_version" ;\
+	    docker push superpaintman/lua:$$lua_version ;\
+	    docker push superpaintman/lua:$$lua_version_2 ;\
+	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	        docker push superpaintman/lua:latest ;\
+	    fi ;\
+	    echo "Push docker container for Luarocks $$LUAROCKS_VERSION" ;\
+	    docker push superpaintman/lua:$$lua_version-luarocks ;\
+	    docker push superpaintman/lua:$$lua_version_2-luarocks ;\
+	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	        docker push superpaintman/lua:luarocks ;\
+	    fi ;\
+	done ;\
 	echo "Done" ;
 
 clean:
