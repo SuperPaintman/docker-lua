@@ -1,15 +1,17 @@
-.PHONY: all build docker-build docker-push clean
+.PHONY: all help build docker-build docker-push clean
 
 LUA_VERSIONS= 5.1.5 5.2.4 5.3.3
 LUA_LATEST=5.3.3
 LUAROCKS_VERSION=2.3.0
 
-all:
-	@echo "- Type 'make build"
-	@echo
+all: help
 
-# readme_versions="$$readme_versions* \`\`, \`\`. \`\`, latest \[\(Dockerfile\)\]\[dockerfile-url\]\n" ;\
-# readme_versions="$$readme_versions* \`lua_version\`, \`lua_version_2\`, \`latest\` \[\(lua_version_2/Dockerfile\)\]\[dockerfile-url\]\n" ;\
+help:
+	@echo "make build        - build docker files and update README.md"
+	@echo "make docker-build - build docker containers"
+	@echo "make docker-push  - push docker containers"
+	@echo "make clean        - clean docker files and README.md"
+	@echo
 
 build:
 	readme_versions="" ;\
