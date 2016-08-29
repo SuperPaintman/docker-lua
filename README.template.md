@@ -34,6 +34,6 @@ $ docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/
 ```
 
 
-[lua-image]: //raw.githubusercontent.com/SuperPaintman/docker-lua/master/README/logo.png
+[lua-image]: https://raw.githubusercontent.com/SuperPaintman/docker-lua/master/README/logo.png
 [lua-url]: //www.lua.org
 {{DOCKERFILES_LINKS}}
