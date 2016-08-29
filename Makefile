@@ -19,12 +19,12 @@ build:
 	    echo "Create \`Dockerfile\` for Lua $$lua_version" ;\
 	    mkdir -p ./$$lua_version_2/luarocks ;\
 	    cat lua-template.Dockerfile \
-	        | sed "s/\{\{LUA_VERSION\}\}/$$lua_version/g" \
+	        | sed -r "s/\{\{LUA_VERSION\}\}/$$lua_version/g" \
 	        > ./$$lua_version_2/Dockerfile ;\
 	    echo "Create \`Dockerfile\` for Luarocks $$LUAROCKS_VERSION" ;\
 	    cat luarocks-template.Dockerfile \
-	        | sed "s/\{\{LUA_VERSION\}\}/$$lua_version/g" \
-	        | sed "s/\{\{LUAROCKS_VERSION\}\}/$(LUAROCKS_VERSION)/g" \
+	        | sed -r "s/\{\{LUA_VERSION\}\}/$$lua_version/g" \
+	        | sed -r "s/\{\{LUAROCKS_VERSION\}\}/$(LUAROCKS_VERSION)/g" \
 	        > ./$$lua_version_2/luarocks/Dockerfile ;\
 	    readme_links="$$readme_links\[dockerfile-$$lua_version_2-url\]: \/\/github.com\/SuperPaintman\/docker-lua\/blob\/master\/$$lua_version_2\/Dockerfile\n" ;\
 	    readme_links="$$readme_links\[dockerfile-luarocks-$$lua_version_2-url\]: \/\/github.com\/SuperPaintman\/docker-lua\/blob\/master\/$$lua_version_2\/luarocks\/Dockerfile\n" ;\
@@ -34,7 +34,7 @@ build:
 	    else \
 	        readme_versions="$$readme_versions* \`$$lua_version\`, \`$$lua_version_2\` \[\($$lua_version_2\/Dockerfile\)\]\[dockerfile-$$lua_version_2-url\]\n" ;\
 	        readme_versions="$$readme_versions* \`$$lua_version-luarocks\`, \`$$lua_version_2-luarocks\` \[\($$lua_version_2\/Dockerfile\)\]\[dockerfile-luarocks-$$lua_version_2-url\]\n" ;\
-	    fi \
+	    fi ;\
 	done ;\
 	echo "Create \`README.md\`" ;\
 	cat README.template.md \
