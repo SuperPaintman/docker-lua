@@ -1,8 +1,8 @@
 .PHONY: all help build docker-build docker-push clean
 
-LUA_VERSIONS= 5.1.5 5.2.4 5.3.3
-LUA_LATEST=5.3.3
-LUAROCKS_VERSION=2.3.0
+LUA_VERSIONS= 5.1.5 5.2.4 5.3.5
+LUA_LATEST=5.3.5
+LUAROCKS_VERSION=3.3.0
 
 all: help
 
@@ -45,7 +45,7 @@ build:
 	    > ./README.md ;\
 	echo "Done" ;
 
-docker-build: build
+docker-build:
 	for lua_version in $(LUA_VERSIONS) ; do \
 	    lua_version_2="$${lua_version%.*}" ;\
 	    echo "Build docker container for Lua $$lua_version" ;\
