@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-ENV LUAROCKS_VERSION 2.3.0
+ENV LUAROCKS_VERSION 3.3.0
 
 RUN curl -SL "https://github.com/keplerproject/luarocks/archive/v$LUAROCKS_VERSION.tar.gz" -o "luarocks-$LUAROCKS_VERSION.tar.gz" \
     && tar -xzvf "luarocks-$LUAROCKS_VERSION.tar.gz" \

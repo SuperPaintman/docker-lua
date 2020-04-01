@@ -12,8 +12,8 @@ Docker Image packaging for Lua
 * `5.1.5-luarocks`, `5.1-luarocks` [(5.1/Dockerfile)][dockerfile-luarocks-5.1-url]
 * `5.2.4`, `5.2` [(5.2/Dockerfile)][dockerfile-5.2-url]
 * `5.2.4-luarocks`, `5.2-luarocks` [(5.2/Dockerfile)][dockerfile-luarocks-5.2-url]
-* `5.3.3`, `5.3`, `latest` [(5.3/Dockerfile)][dockerfile-5.3-url]
-* `5.3.3-luarocks`, `5.3-luarocks`, `luarocks` [(5.3/Dockerfile)][dockerfile-luarocks-5.3-url]
+* `5.3.5`, `5.3`, `latest` [(5.3/Dockerfile)][dockerfile-5.3-url]
+* `5.3.5-luarocks`, `5.3-luarocks`, `luarocks` [(5.3/Dockerfile)][dockerfile-luarocks-5.3-url]
 
 
 ## How to use this image

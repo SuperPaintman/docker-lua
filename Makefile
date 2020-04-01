@@ -1,8 +1,8 @@
 .PHONY: all help build docker-build docker-push clean
 
-LUA_VERSIONS= 5.1.5 5.2.4 5.3.3
-LUA_LATEST=5.3.3
-LUAROCKS_VERSION=2.3.0
+LUA_VERSIONS= 5.1.5 5.2.4 5.3.5
+LUA_LATEST=5.3.5
+LUAROCKS_VERSION=3.3.0
 
 all: help
 
@@ -30,7 +30,7 @@ build:
 	        > ./$$lua_version_2/luarocks/Dockerfile ;\
 	    readme_links="$$readme_links\[dockerfile-$$lua_version_2-url\]: \/\/github.com\/SuperPaintman\/docker-lua\/blob\/master\/$$lua_version_2\/Dockerfile\n" ;\
 	    readme_links="$$readme_links\[dockerfile-luarocks-$$lua_version_2-url\]: \/\/github.com\/SuperPaintman\/docker-lua\/blob\/master\/$$lua_version_2\/luarocks\/Dockerfile\n" ;\
-	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	    if [ $(LUA_LATEST) = $$lua_version ]; then \
 	        readme_versions="$$readme_versions* \`$$lua_version\`, \`$$lua_version_2\`, \`latest\` \[\($$lua_version_2\/Dockerfile\)\]\[dockerfile-$$lua_version_2-url\]\n" ;\
 	        readme_versions="$$readme_versions* \`$$lua_version-luarocks\`, \`$$lua_version_2-luarocks\`, \`luarocks\` \[\($$lua_version_2\/Dockerfile\)\]\[dockerfile-luarocks-$$lua_version_2-url\]\n" ;\
 	    else \
@@ -45,13 +45,13 @@ build:
 	    > ./README.md ;\
 	echo "Done" ;
 
-docker-build: build
+docker-build:
 	for lua_version in $(LUA_VERSIONS) ; do \
 	    lua_version_2="$${lua_version%.*}" ;\
 	    echo "Build docker container for Lua $$lua_version" ;\
 	    ( cd ./$$lua_version_2 && ls && docker build -t superpaintman/lua:$$lua_version . ) ;\
 	    docker tag superpaintman/lua:$$lua_version superpaintman/lua:$$lua_version_2 ;\
-	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	    if [ $(LUA_LATEST) = $$lua_version ]; then \
 	        docker tag superpaintman/lua:$$lua_version superpaintman/lua:latest ;\
 	    fi ;\
 	    echo "Build docker container for Luarocks $$LUAROCKS_VERSION" ;\
@@ -69,13 +69,13 @@ docker-push:
 	    echo "Push docker container for Lua $$lua_version" ;\
 	    docker push superpaintman/lua:$$lua_version ;\
 	    docker push superpaintman/lua:$$lua_version_2 ;\
-	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	    if [ $(LUA_LATEST) = $$lua_version ]; then \
 	        docker push superpaintman/lua:latest ;\
 	    fi ;\
 	    echo "Push docker container for Luarocks $$LUAROCKS_VERSION" ;\
 	    docker push superpaintman/lua:$$lua_version-luarocks ;\
 	    docker push superpaintman/lua:$$lua_version_2-luarocks ;\
-	    if [[ $(LUA_LATEST) = $$lua_version ]]; then \
+	    if [ $(LUA_LATEST) = $$lua_version ]; then \
 	        docker push superpaintman/lua:luarocks ;\
 	    fi ;\
 	done ;\
